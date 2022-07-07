@@ -1,0 +1,17 @@
+FROM python:3.9
+
+WORKDIR /airflow_tutorial
+
+ADD . /airflow_tutorial
+
+ENV AIRFLOW__CORE__DAGS_FOLDER /airflow_tutorial
+ENV AIRFLOW__CORE__DEFAULT_TIMEZONE Asia/Taipei
+ENV AIRFLOW__CORE__LOAD_EXAMPLES False
+
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
+
+RUN airflow db init
+RUN airflow users create -e jojo@jojo.com -f jo -l jo -p jojo -u jojo -r Admin
+
+ENTRYPOINT airflow scheduler & airflow webserver -H 0.0.0.0 -p 8080

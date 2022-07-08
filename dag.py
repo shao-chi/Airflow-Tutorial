@@ -10,7 +10,7 @@ from src.slackSend import slackNotification
 
 default_args = {
     'owner': 'jojo',
-    'start_date': datetime(2022, 7, 7, 8, 0),
+    'start_date': datetime(2023, 7, 7, 8, 0),
     'schedule_interval': '* * * 8 0',
     'tag': 'slack'
 }

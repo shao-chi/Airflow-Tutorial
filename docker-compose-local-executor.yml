@@ -17,7 +17,14 @@ services:
     container_name: airflow-local-executor
     build:
       context: ./
-      dockerfile: ./Dockerfile.LocalExecutor
+      dockerfile: ./Dockerfile
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/airflow_tutorial
+      - AIRFLOW__CORE__DEFAULT_TIMEZONE=Asia/Taipei
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow_usr:airflow_pwd@airflow-postgres/airflow_db
+    entrypoint: /bin/bash docker_entrypoint.sh
     volumes:
       - ./:/airflow_tutorial
     ports:

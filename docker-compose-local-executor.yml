@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  airflow-postgres:
+    image: postgres:latest
+    container_name: airflow-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=airflow_usr
+      - POSTGRES_PASSWORD=airflow_pwd
+    ports:
+      - 5432:5432
+    volumes: 
+      - db:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/create_airflow_db.sql
+
+  airflow:
+    container_name: airflow-local-executor
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.LocalExecutor
+    volumes:
+      - ./:/airflow_tutorial
+    ports:
+      - '8080:8080'
+    depends_on:
+      - airflow-postgres
+    links:
+      - airflow-postgres
+
+volumes:
+  db:
+    driver: local

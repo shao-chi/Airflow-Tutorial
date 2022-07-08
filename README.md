@@ -1,5 +1,7 @@
 # Airflow Demo
 
+![workflow](./img/workflow.png)
+
 ### Requirements
 1. 取得各 API 授權
     * [Get Youtube Data API Key](https://hackmd.io/@c36ICNyhQE6-iTXKxoIocg/S1eYdtA1P#%E5%8F%96%E5%BE%97-Youtube-API_KEY)
@@ -12,3 +14,14 @@
     SLACK_TOKEN = "{FILL HERE}"
     SLACK_CHANNEL_ID = "{FILL HERE}"
     ```
+
+### Run Airflow using Sequential Executor
+```bash
+docker build . -f Dockerfile.SequentialExecutor --tag airflow:sequential-executor --no-cache
+docker run -p 8080:8080 -it airflow:sequential-executor
+```
+
+### Run Airflow using Local Executor
+```bash
+docker compose -f docker-compose-local-executor.yml up
+```

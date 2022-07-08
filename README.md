@@ -25,3 +25,13 @@ docker run -p 8080:8080 -it airflow:sequential-executor
 ```bash
 docker compose -f docker-compose-local-executor.yml up
 ```
+
+### Run Airflow using Celery Executor
+```bash
+docker build . -f Dockerfile --tag airflow-main --no-cache
+docker network create -d bridge airflow-network
+docker compose -f docker-compose-celery-executor.yml up airflow-postgres airflow-redis
+docker compose -f docker-compose-celery-executor.yml up airflow-init
+docker compose -f docker-compose-celery-executor.yml up airflow-webserver airflow-scheduler
+docker compose -f docker-compose-celery-executor.yml up airflow-worker-1 airflow-worker-2 airflow-worker-3
+```

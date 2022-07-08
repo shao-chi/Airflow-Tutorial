@@ -1,0 +1,153 @@
+version: '3.8'
+
+x-airflow-common:
+  &airflow-common-setting
+  image: airflow-main
+  environment:
+    &airflow-common-environment
+    AIRFLOW__CORE__DAGS_FOLDER: /airflow_tutorial
+    AIRFLOW__CORE__DEFAULT_TIMEZONE: Asia/Taipei
+    AIRFLOW__CORE__LOAD_EXAMPLES: False
+    AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+    AIRFLOW__CELERY__BROKER_URL: redis://:@airflow-redis:6379/0
+    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql+psycopg2://airflow_usr:airflow_pwd@airflow-postgres:5432/airflow_db
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow_usr:airflow_pwd@airflow-postgres:5432/airflow_db
+    AIRFLOW__WEBSERVER__SECRET_KEY: 5qUq6sas/SPwNQlIx3rcBA==
+
+services:
+  airflow-postgres:
+    image: postgres:latest
+    container_name: airflow-postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=airflow_usr
+      - POSTGRES_PASSWORD=airflow_pwd
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=airflow-postgres
+      - POSTGRES_DB=airflow_db
+    ports:
+      - 5432:5432
+    volumes: 
+      - db:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/create_airflow_db.sql
+    networks:
+      - airflow
+
+  airflow-redis:
+    image: redis
+    container_name: airflow-redis
+    restart: always
+    environment:
+      - REDIS_HOST=airflow-redis
+      - REDIS_PORT=6379
+    networks:
+      - airflow
+
+  airflow-init:
+    <<: *airflow-common-setting
+    container_name: airflow-init
+    environment: 
+      <<: *airflow-common-environment
+    entrypoint: >
+      bash -c "airflow db init &&
+      airflow users create -e jojo@jojo.com -f jo -l jo -p jojo -u jojo -r Admin"
+    volumes:
+      - ./:/airflow_tutorial
+    depends_on:
+      - airflow-postgres
+      - airflow-redis
+    links:
+      - airflow-postgres
+      - airflow-redis
+    networks:
+      - airflow
+
+  airflow-webserver:
+    <<: *airflow-common-setting
+    container_name: airflow-webserver
+    environment: 
+      <<: *airflow-common-environment
+    entrypoint: airflow webserver
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./:/airflow_tutorial
+    depends_on:
+      - airflow-postgres
+      - airflow-redis
+    links:
+      - airflow-postgres
+      - airflow-redis
+    networks:
+      - airflow
+
+  airflow-scheduler:
+    <<: *airflow-common-setting
+    container_name: airflow-scheduler
+    environment: 
+      <<: *airflow-common-environment
+    entrypoint: airflow scheduler
+    volumes:
+      - ./:/airflow_tutorial
+    depends_on:
+      - airflow-postgres
+      - airflow-redis
+    links:
+      - airflow-postgres
+      - airflow-redis
+    networks:
+      - airflow
+
+  airflow-worker-1:
+    <<: *airflow-common-setting
+    container_name: airflow-worker-1
+    restart: always
+    environment: 
+      <<: *airflow-common-environment
+    volumes:
+      - ./:/airflow_tutorial
+    entrypoint: airflow celery worker
+    links:
+      - airflow-postgres
+      - airflow-redis
+    networks:
+      - airflow
+
+  airflow-worker-2:
+    <<: *airflow-common-setting
+    container_name: airflow-worker-2
+    restart: always
+    environment: 
+      <<: *airflow-common-environment
+    volumes:
+      - ./:/airflow_tutorial
+    entrypoint: airflow celery worker
+    links:
+      - airflow-postgres
+      - airflow-redis
+    networks:
+      - airflow
+
+  airflow-worker-3:
+    <<: *airflow-common-setting
+    container_name: airflow-worker-3
+    restart: always
+    environment: 
+      <<: *airflow-common-environment
+    volumes:
+      - ./:/airflow_tutorial
+    entrypoint: airflow celery worker
+    links:
+      - airflow-postgres
+      - airflow-redis
+    networks:
+      - airflow
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  airflow:
+    external:
+      name: airflow-network

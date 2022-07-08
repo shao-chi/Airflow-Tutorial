@@ -1,4 +1,7 @@
-from datetime import datetime
+import datetime
+from datetime import date
+from datetime import time
+from datetime import timedelta
 
 from airflow.models.dag import DAG
 from airflow.operators.python import PythonOperator
@@ -7,10 +10,11 @@ from src.topMusic import saveTopSongText
 from src.weather import saveWeatherText
 from src.slackSend import slackNotification
 
-
+start_date = datetime.datetime.combine(date.today(), time())
+start_date = start_date + timedelta(hours=8)
 default_args = {
     'owner': 'jojo',
-    'start_date': datetime(2023, 7, 7, 8, 0),
+    'start_date': start_date,
     'schedule_interval': '* * * 8 0',
     'tag': 'slack'
 }

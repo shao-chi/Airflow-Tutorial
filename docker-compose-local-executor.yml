@@ -14,6 +14,7 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_airflow_db.sql
 
   airflow:
+    image: airflow-local-executor
     container_name: airflow-local-executor
     build:
       context: ./

@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  airflow:
+    image: airflow-sequential-executor
+    container_name: airflow-sequential-executor
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.SequentialExecutor
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/airflow_tutorial
+      - AIRFLOW__CORE__DEFAULT_TIMEZONE=Asia/Taipei
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+    entrypoint: /bin/bash docker_entrypoint.sh
+    volumes:
+      - ./:/airflow_tutorial
+    ports:
+      - '8080:8080'
+
+volumes:
+  db:
+    driver: local

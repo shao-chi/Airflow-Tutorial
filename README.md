@@ -33,3 +33,5 @@ docker compose -f docker-compose-celery-executor.yml up airflow-postgres airflow
 docker compose -f docker-compose-celery-executor.yml up airflow-init
 docker compose -f docker-compose-celery-executor.yml up airflow-webserver airflow-scheduler airflow-worker-1 airflow-worker-2 airflow-worker-3
 ```
+
+> UI: `127.0.0.1:8080`

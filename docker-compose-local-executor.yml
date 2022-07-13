@@ -10,7 +10,7 @@ services:
     ports:
       - 5432:5432
     volumes: 
-      - db:/var/lib/postgresql/data
+      - local-postgres-db:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_airflow_db.sql
 
   airflow:
@@ -22,7 +22,7 @@ services:
     environment:
       - AIRFLOW__CORE__DAGS_FOLDER=/airflow_tutorial
       - AIRFLOW__CORE__DEFAULT_TIMEZONE=Asia/Taipei
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      # - AIRFLOW__CORE__LOAD_EXAMPLES=False
       - AIRFLOW__CORE__EXECUTOR=LocalExecutor
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow_usr:airflow_pwd@airflow-postgres/airflow_db
     entrypoint: /bin/bash docker_entrypoint.sh
@@ -36,5 +36,5 @@ services:
       - airflow-postgres
 
 volumes:
-  db:
+  local-postgres-db:
     driver: local

@@ -9,7 +9,7 @@ services:
     environment:
       - AIRFLOW__CORE__DAGS_FOLDER=/airflow_tutorial
       - AIRFLOW__CORE__DEFAULT_TIMEZONE=Asia/Taipei
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      # - AIRFLOW__CORE__LOAD_EXAMPLES=False
     entrypoint: /bin/bash docker_entrypoint.sh
     volumes:
       - ./:/airflow_tutorial

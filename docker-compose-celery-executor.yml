@@ -7,7 +7,7 @@ x-airflow-common:
     &airflow-common-environment
     AIRFLOW__CORE__DAGS_FOLDER: /airflow_tutorial
     AIRFLOW__CORE__DEFAULT_TIMEZONE: Asia/Taipei
-    AIRFLOW__CORE__LOAD_EXAMPLES: False
+    # AIRFLOW__CORE__LOAD_EXAMPLES: False
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__CELERY__BROKER_URL: redis://:@airflow-redis:6379/0
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql+psycopg2://airflow_usr:airflow_pwd@airflow-postgres:5432/airflow_db
@@ -28,7 +28,7 @@ services:
     ports:
       - 5432:5432
     volumes: 
-      - db:/var/lib/postgresql/data
+      - local-celery-db:/var/lib/postgresql/data
       - ./db/init.sql:/docker-entrypoint-initdb.d/create_airflow_db.sql
     networks:
       - airflow
@@ -106,7 +106,7 @@ services:
       <<: *airflow-common-environment
     volumes:
       - ./:/airflow_tutorial
-    entrypoint: airflow celery worker
+    entrypoint: airflow celery worker -H worker-1
     links:
       - airflow-postgres
       - airflow-redis
@@ -121,7 +121,7 @@ services:
       <<: *airflow-common-environment
     volumes:
       - ./:/airflow_tutorial
-    entrypoint: airflow celery worker
+    entrypoint: airflow celery worker -H worker-2
     links:
       - airflow-postgres
       - airflow-redis
@@ -136,7 +136,7 @@ services:
       <<: *airflow-common-environment
     volumes:
       - ./:/airflow_tutorial
-    entrypoint: airflow celery worker
+    entrypoint: airflow celery worker -H worker-3
     links:
       - airflow-postgres
       - airflow-redis
@@ -144,7 +144,7 @@ services:
       - airflow
 
 volumes:
-  db:
+  local-celery-db:
     driver: local
 
 networks:

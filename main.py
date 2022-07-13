@@ -1,7 +1,7 @@
-from src.catGif import saveCatGif
-from src.topMusic import saveTopSongText
+from src.cat_gif import saveCatGif
+from src.top_music import saveTopSongText
 from src.weather import saveWeatherText
-from src.slackSend import slackNotification
+from src.slack_send import slackNotification
 
 
 def main():

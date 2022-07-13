@@ -1,6 +1,9 @@
 # Airflow Tutorial
 
-1. Install `pip install apache-airflow`
+1. Install 
+    ```
+    pip install apache-airflow
+    ```
 2. 調整 `/home/airflow/airflow.cfg`
     * **`dags_folder`**: 你 DAG py file 的資料夾路徑
     * **`default_timezone`**: 時區
@@ -9,12 +12,26 @@
     * (*For celery executor*)
         * **`broker_url`** (redis / RabbitMQ)
         * **`result_backend`** (MySQL / PostgreSQL)
-3. Initialize the database `airflow db init`
-4. 建立使用者 `airflow users create -e {EMAIL} -f {FIRST_NAME} -l {LAST_NAME} -p {PASSWORD} -u {USER_NAME} -r {ROLE: Admin/...}`
-5. 啟動 scheduler `airflow scheduler`
-6. 啟動 web server `airflow webserver`
-    default: `127.0.0.1:8080`
-7. (*For celery executor*) 在 worker node 上啟動 worker `airflow celery worker`
+3. Initialize the database 
+    ```
+    airflow db init
+    ```
+4. 建立使用者 
+    ```
+    airflow users create -e {EMAIL} -f {FIRST_NAME} -l {LAST_NAME} -p {PASSWORD} -u {USER_NAME} -r {ROLE: Admin/...}
+    ```
+5. 啟動 scheduler
+    ```
+    airflow scheduler
+    ```
+6. 啟動 web server (default: `127.0.0.1:8080`)
+    ```
+    airflow webserver
+    ```
+7. (*For celery executor*) 在 worker node 上啟動 worker
+    ```
+    airflow celery worker
+    ```
 
 # Airflow Demo
 

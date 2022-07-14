@@ -30,11 +30,9 @@ def getWeatherText():
         elements = [e["time"][0]["parameter"]["parameterName"]
                     for e in elements]
 
-        state = f'今天 {location} {elements[0]}'
-        rain_prob = f'降雨機率 {elements[1]}%'
-        min_tem = f'最低溫度 {elements[2]}度'
-        comfort = elements[3]
-        max_tem = f'最高溫度 {elements[4]}度'
-        return '\n'.join([state, rain_prob, comfort, max_tem, min_tem])
+        state = f'今天{location}的天氣 {elements[0]}, 你會感到 {elements[3]}'
+        prob = f'總之呢, 降雨機率 {elements[1]} %'
+        temp = f'最低溫度 {elements[2]} 度, 最高溫度 {elements[4]} 度'
+        return f'{state}\n{prob}, {temp}'
 
     return None

@@ -43,7 +43,8 @@
     * [Get Youtube Data API Key](https://hackmd.io/@c36ICNyhQE6-iTXKxoIocg/S1eYdtA1P#%E5%8F%96%E5%BE%97-Youtube-API_KEY) \
         (取得 Youtube API_KEY 就行)
     * [Get 中央氣象局 API Authorization](https://ithelp.ithome.com.tw/articles/10243411)
-    * [Get Slack token & channel ID](https://hackmd.io/@sideex/slack-zh)
+    * [Get Slack token & channel ID](https://hackmd.io/@sideex/slack-zh) \
+        (channel ID: 看你想要在哪個 channel 收到通知)
 3. 建立 `config.py`
     ```python
     WEATHER_API_AUTHORIZATION = "{FILL HERE}"
@@ -51,6 +52,7 @@
     SLACK_TOKEN = "{FILL HERE}"
     SLACK_CHANNEL_ID = "{FILL HERE}"
     ```
+4. 測試 `python3 main.py` 是否能成功執行
 
 ### Run Airflow using Sequential Executor
 ```bash

@@ -15,7 +15,7 @@ def getTopSongInfo():
     url = f"https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=TW&videoCategoryId=10&key={YOUTUBE_API_KEY}"
 
     response = requests.get(url)
-    randomIndex = np.random.choice(np.arange(10))
+    randomIndex = np.random.choice(np.arange(5))
     topSong = json.loads(response.text)['items'][randomIndex]
     video_id = topSong['id']
     title = topSong['snippet']['title']

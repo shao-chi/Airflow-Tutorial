@@ -40,9 +40,10 @@
 ### Requirements
 1. Install Docker
 2. 取得各 API 授權
-    * [Get Youtube Data API Key](https://hackmd.io/@c36ICNyhQE6-iTXKxoIocg/S1eYdtA1P#%E5%8F%96%E5%BE%97-Youtube-API_KEY)
+    * [Get Youtube Data API Key](https://hackmd.io/@c36ICNyhQE6-iTXKxoIocg/S1eYdtA1P#%E5%8F%96%E5%BE%97-Youtube-API_KEY) \
+        (取得 Youtube API_KEY 就行)
     * [Get 中央氣象局 API Authorization](https://ithelp.ithome.com.tw/articles/10243411)
-    * [Get Slack token & channel ID](https://blog.crazyfan.net/posts/2017/04/08/slack_incoming_webhooks/)
+    * [Get Slack token & channel ID](https://hackmd.io/@sideex/slack-zh)
 3. 建立 `config.py`
     ```python
     WEATHER_API_AUTHORIZATION = "{FILL HERE}"

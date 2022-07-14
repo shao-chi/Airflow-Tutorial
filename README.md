@@ -26,7 +26,7 @@
     ```
 6. 啟動 web server (default: `127.0.0.1:8080`)
     ```
-    airflow webserver
+    airflow webserver -H 127.0.0.1
     ```
 7. (*For celery executor*) 在 worker node 上啟動 worker
     ```

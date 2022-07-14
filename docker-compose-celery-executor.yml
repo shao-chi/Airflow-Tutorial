@@ -101,12 +101,13 @@ services:
   airflow-worker-1:
     <<: *airflow-common-setting
     container_name: airflow-worker-1
+    hostname: worker-1
     restart: always
     environment: 
       <<: *airflow-common-environment
     volumes:
       - ./:/airflow_tutorial
-    entrypoint: airflow celery worker -H worker-1
+    entrypoint: airflow celery worker
     links:
       - airflow-postgres
       - airflow-redis
@@ -116,12 +117,13 @@ services:
   airflow-worker-2:
     <<: *airflow-common-setting
     container_name: airflow-worker-2
+    hostname: worker-2
     restart: always
     environment: 
       <<: *airflow-common-environment
     volumes:
       - ./:/airflow_tutorial
-    entrypoint: airflow celery worker -H worker-2
+    entrypoint: airflow celery worker
     links:
       - airflow-postgres
       - airflow-redis
@@ -131,12 +133,13 @@ services:
   airflow-worker-3:
     <<: *airflow-common-setting
     container_name: airflow-worker-3
+    hostname: worker-3
     restart: always
     environment: 
       <<: *airflow-common-environment
     volumes:
       - ./:/airflow_tutorial
-    entrypoint: airflow celery worker -H worker-3
+    entrypoint: airflow celery worker
     links:
       - airflow-postgres
       - airflow-redis

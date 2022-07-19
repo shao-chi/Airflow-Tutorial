@@ -1,4 +1,5 @@
 # Airflow Tutorial
+> Python version >= 3.7
 
 1. Install
     ```

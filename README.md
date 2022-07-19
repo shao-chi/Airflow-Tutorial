@@ -1,34 +1,49 @@
 # Airflow Tutorial
 
-1. Install 
+1. Install
     ```
     pip install apache-airflow
+    pip install -r requirements.txt
     ```
-2. 調整 `/home/airflow/airflow.cfg`
+
+2. Initialize the database
+    ```
+    airflow db init
+    ```
+
+3. 調整 `~/airflow/airflow.cfg`
     * **`dags_folder`**: 你 DAG py file 的資料夾路徑
     * **`default_timezone`**: 時區
+
     * **`executor`**: executor type (default: `SequentialExecutor`)
     * **`sql_alchemy_conn`**: metadata database (default: `sqlite:////home/airflow/airflow.db`)
     * (*For celery executor*)
         * **`broker_url`** (redis / RabbitMQ)
         * **`result_backend`** (MySQL / PostgreSQL)
-3. Initialize the database 
-    ```
-    airflow db init
-    ```
+
 4. 建立使用者 
     ```
     airflow users create -e {EMAIL} -f {FIRST_NAME} -l {LAST_NAME} -p {PASSWORD} -u {USER_NAME} -r {ROLE: Admin/...}
     ```
+
 5. 啟動 scheduler
     ```
-    airflow scheduler
+    # export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+    airflow scheduler -D
     ```
-6. 啟動 web server (default: `127.0.0.1:8080`)
+
+6. 啟動 web server (default: `0.0.0.0:8080`)
     ```
     airflow webserver -H 127.0.0.1
     ```
-7. (*For celery executor*) 在 worker node 上啟動 worker
+
+7. 進入 `127.0.0.1:8080`
+    ![UI](./img/webserver-1.png)
+
+    * 點擊 slack-notification-daily
+        ![dag](./img/webserver-2.png)
+
+* (*For celery executor*) 在 worker node 上啟動 worker
     ```
     airflow celery worker
     ```
@@ -58,11 +73,13 @@
 ```bash
 docker compose -f docker-compose-sequential-executor.yml up
 ```
+![sequential](./img/sequential.png)
 
 ### Run Airflow using Local Executor
 ```bash
 docker compose -f docker-compose-local-executor.yml up
 ```
+![local](./img/local.png)
 
 ### Run Airflow using Celery Executor
 ```bash
@@ -72,6 +89,10 @@ docker compose -f docker-compose-celery-executor.yml up airflow-postgres airflow
 docker compose -f docker-compose-celery-executor.yml up airflow-init
 docker compose -f docker-compose-celery-executor.yml up airflow-webserver airflow-scheduler airflow-worker-1 airflow-worker-2 airflow-worker-3
 ```
+![celery](./img/celery-1.png)
+
+* 到 Browse > Task Instance
+![host](./img/celery-2.png)
 
 > web server
 > * url: `127.0.0.1:8080`
